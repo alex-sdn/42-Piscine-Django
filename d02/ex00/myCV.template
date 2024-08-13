@@ -1,2 +1,14 @@
-<p>"-Who are you?
--A {name}!"</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{title}</title>
+    </head>
+    <body>
+        <h1>{name}</h1>
+
+        <h2>{profession}</h2>
+
+        <p>Age: {age}</p>
+        <p>School: {school}</p>
+    </body>
+</html>

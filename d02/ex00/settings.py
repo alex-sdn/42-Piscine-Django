@@ -1,1 +1,5 @@
-name = "duoquadragintian"
+title = "My Resume"
+name = "Alexandre Sadanowicz"
+age = "25"
+profession = "Junior developer"
+school = "42 Paris"
