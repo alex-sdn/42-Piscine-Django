@@ -20,11 +20,11 @@ if __name__ == '__main__':
     nameless = Intern()
     mark = Intern('Mark')
     
-    print(nameless.__str__())
-    print(mark.__str__())
+    print(str(nameless))  # REPLACE EVERYWHERE
+    print(str(mark))
 
     coffee = mark.make_coffee()
-    print(coffee.__str__())
+    print(str(coffee))
 
     try:
         nameless.work()
