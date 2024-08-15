@@ -39,8 +39,8 @@ if __name__ == '__main__':
     chocolate = Chocolate()
     cappucino = Cappuccino()
 
-    print(hotbeverage.__str__())
-    print(coffee.__str__())
-    print(tea.__str__())
-    print(chocolate.__str__())
-    print(cappucino.__str__())
+    print(str(hotbeverage))
+    print(str(coffee))
+    print(str(tea))
+    print(str(chocolate))
+    print(str(cappucino))

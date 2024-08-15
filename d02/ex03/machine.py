@@ -35,37 +35,37 @@ if __name__ == '__main__':
 
     try:
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
         
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Coffee)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Coffee)
-        print(beverage.__str__())
+        print(str(beverage))
         
         beverage = machine.serve(Tea)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Tea)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Chocolate)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Chocolate)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Cappuccino)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Cappuccino)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
     except Exception as e:
         print(e)
 
@@ -74,36 +74,36 @@ if __name__ == '__main__':
 
     try:
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
         
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Coffee)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Coffee)
-        print(beverage.__str__())
+        print(str(beverage))
         
         beverage = machine.serve(Tea)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Tea)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Chocolate)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Chocolate)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Cappuccino)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(Cappuccino)
-        print(beverage.__str__())
+        print(str(beverage))
 
         beverage = machine.serve(HotBeverage)
-        print(beverage.__str__())
+        print(str(beverage))
     except Exception as e:
         print(e)
