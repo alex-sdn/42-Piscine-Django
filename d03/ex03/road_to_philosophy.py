@@ -2,6 +2,10 @@ import sys
 import requests
 from bs4 import BeautifulSoup
 
+def request_failed():
+    print('An error occured during the GET request')
+    exit()
+
 def check_first_page(article):
     response = requests.get("https://en.wikipedia.org" + article)
 
@@ -39,6 +43,8 @@ def scrape_title(article):
             return title_tag.find('i').text
         else:
             return title_tag.find('span', class_='mw-page-title-main').text
+    else:
+        request_failed()
     
 def scrape_article(article):
     wiki_url = "https://en.wikipedia.org"
@@ -48,43 +54,12 @@ def scrape_article(article):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'lxml')
 
-        # paragraphs = soup.find_all('p', class_=None)
         paragraphs = soup.select('p:not(table p)')
-        # print(paragraphs)
 
-        ### SOLUTION 1: Skips parenthesis and italics + checks all paragraphs
-        # in_parentheses = False
-
-        # for paragraph in paragraphs:
-        #     for elem in paragraph.descendants:
-        #         # check if parentheses
-        #         if isinstance(elem, str):
-        #             if '(' in elem:
-        #                 in_parentheses = True
-        #             if ')' in elem:
-        #                 in_parentheses = False
-                
-        #         # if <a> not in () or in italics
-        #         if elem.name == 'a' and not in_parentheses and elem.find_parent('i') is None:
-        #             # print(elem.get('href'))
-        #             # exit()
-        #             print('RETURNING: ' + elem.get('href'))
-        #             return elem.get('href')
-
-        ### SOLUTION 2 (doesnt skip parentheses and italics) PB: not always main paragraph
-        # paragraph = soup.find('p', class_=None)
-        # anchors = paragraph.find_all('a')
-
-        # for elem in anchors:
-        #     link = elem.get('href')
-        #     if link[:6] == '/wiki/' and not ':' in link:
-        #             return (link)
-        # return None
-
-        ### SOLUTION 3: Dont skip par+italics + take first paragraph that isn't in italics
+        # iterate until intro paragraph
         for paragraph in paragraphs:
-            # Skip if has a class
-            if paragraph.get('class') != None:
+            # Skip if has a class or is in a blockquote
+            if paragraph.get('class') != None or paragraph.find_parent('blockquote'):
                 continue
             # Skip paragraphs in italics (not main paragraph)
             italic_part = paragraph.find('i')
@@ -98,10 +73,8 @@ def scrape_article(article):
                 if link[:6] == '/wiki/' and not ':' in link:
                          return (link)
             return None
-                    
-
-
-    
+    else:
+        request_failed()
 
 def roads_to_philosophy(arg):
     roads = []
