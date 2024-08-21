@@ -1,2 +1,2 @@
-pip install requests
-pip install dewiki
+requests>=2.32.3
+dewiki==0.1.0
