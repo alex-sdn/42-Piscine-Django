@@ -16,13 +16,14 @@ def check_first_page(article):
 def check_end_conditions(roads: list):
     # if reached philosophy
     if roads[-1] == 'Philosophy':
-        print(roads)
+        for road in roads:
+            print(road)
         print(f'{len(roads)} roads from {roads[0]} to philosophy')
         return True
 
     # if about to loop
     if len(roads) != len(set(roads)):
-        print(roads)
+        # print(roads)
         print('It leads to an infinite loop!')
         return True
     
@@ -92,7 +93,7 @@ def roads_to_philosophy(arg):
         article = scrape_article(article)
 
         if article == None:
-            print(roads)
+            # print(roads)
             print('It leads to a dead end!')
             exit()
 
