@@ -1,0 +1,9 @@
+<!-- <a href="/">
+    <h1>nav home</h1>
+</a> -->
+{% for page in pages %}
+    <a href="{{page.name}}">
+        <h3>{{page.title}}</h3>
+    </a>
+{% endfor %}
+<hr>
