@@ -50,6 +50,8 @@ def populate(request):
         (7, 'The Force Awakens', 'J. J. Abrams', 'Kathleen Kennedy, J. J. Abrams, Bryan Burk', '2015-12-11')
     ]
 
+    status = []
+
     try:
         conn = psycopg2.connect(
             dbname=dbname,
@@ -68,14 +70,16 @@ def populate(request):
                             VALUES (%s, %s, %s, %s, %s)
                         """, movie)
                 conn.commit()
-            except Exception as e:
-                raise Exception(f'{movie[1]}: {str(e)}')
+                status.append('OK')
 
-        #close connection
+            except Exception as e:
+                conn.rollback()
+                status.append(f'{movie[1]}: {str(e)}')
+
         cursor.close()
         conn.close()
 
-        return HttpResponse("OK")
+        return render(request, 'ex02/populate.html', {'status': status})
 
     except Exception as e:
         return HttpResponse(f"Error: {str(e)}")
@@ -94,7 +98,7 @@ def display(request):
 
         cursor.execute("SELECT * FROM ex02_movies")
         movies = cursor.fetchall() #fetch rows as list of tuples
-        #if empty table
+
         if not movies:
             raise Exception('empty')
 
