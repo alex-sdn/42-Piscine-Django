@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ex10 search</title>
+    </style>
+</head>
+<body>
+    <form action="/ex10/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="submit">
+    </form>
+    {% if results %}
+    <ul>
+        {% for char in results %}
+        <li>
+            {% for elem in char %}
+                {{ elem }} -
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nothing corresponding to your research</p>
+    {% endif %}
+</body>
+</html>
