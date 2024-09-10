@@ -1,4 +1,17 @@
 <nav>
+    <a href="/">HOME</a>
+
+    {% if request.user.is_authenticated %}
+
+    <p>Hello {{ request.user.username }}!</p>
+    <a href="/logout">Logout</a>
+
+    {% else %}
+
     <p>Hello {{ username }}!</p>
+    <a href="/login">Login</a>
+    <a href="/signup">Signup</a>
+
+    {% endif %}
 </nav>
 <hr>

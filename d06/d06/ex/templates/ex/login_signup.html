@@ -1,0 +1,23 @@
+{% extends 'ex/base.html' %}
+
+{% block title %}
+<title>d06 {{ page }}</title>
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form action={{ page }} method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value={{ page }}>
+</form>
+
+{% endblock %}
