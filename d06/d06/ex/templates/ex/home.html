@@ -1,4 +1,4 @@
-{% extends 'ex/base.html' %}
+{% extends 'ex/base.html' %} {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
 
 {% block title %}
 <title>d06 home</title>
@@ -6,6 +6,49 @@
 
 {% block content %}
 
-<p>home tmp</p>
+{% if request.user.is_authenticated %}
+    <form action="add_tip" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Submit Tip</button>
+    </form>
+{% endif %}
+
+<ul>
+    {% for tip in tips %}
+        <li>
+            <strong>{{ tip.author.username }}</strong> 
+            on {{ tip.date }} said:
+            <p>{{ tip.content }}</p>
+            <div>
+                <span>Upvotes: {{ tip.upvotes.count }}</span>
+                <span>Downvotes: {{ tip.downvotes.count }}</span>
+            </div>
+            {% if request.user.is_authenticated %}
+                <div style="display: inline-block;">
+                    <form method="post" action="{% url 'upvote_tip' tip.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Upvote</button>
+                    </form>
+                </div>
+                <div style="display: inline-block;">
+                    <form method="post" action="{% url 'downvote_tip' tip.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Downvote</button>
+                    </form>
+                </div>
+
+                <div>
+                    <form method="post" action="{% url 'delete_tip' tip.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No tips available.</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}

@@ -36,7 +36,7 @@ USERNAMES = [
     'five',
     'six',
     'seven',
-    'eight'
+    'eight',
     'nine',
     'ten',
 ]

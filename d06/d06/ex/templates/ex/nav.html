@@ -2,16 +2,12 @@
     <a href="/">HOME</a>
 
     {% if request.user.is_authenticated %}
-
-    <p>Hello {{ request.user.username }}!</p>
-    <a href="/logout">Logout</a>
-
+        <p>Hello <strong>{{ request.user.username }}</strong>!</p>
+        <a href="/logout">Logout</a>
     {% else %}
-
-    <p>Hello {{ username }}!</p>
-    <a href="/login">Login</a>
-    <a href="/signup">Signup</a>
-
+        <p>Hello {{ username }}!</p>
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
     {% endif %}
 </nav>
 <hr>

@@ -18,8 +18,6 @@ class LoginForm(forms.Form):
 def loginPage(request):
     if request.user.is_authenticated:
         return redirect('/')
-    
-    form = LoginForm()
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -40,6 +38,8 @@ def loginPage(request):
                 return redirect('/')
             else:
                 messages.error(request, 'incorrect password')
+    else:
+        form = LoginForm()
 
     context = {
         'form': form,
@@ -54,8 +54,6 @@ def logoutPage(request):
 def signupPage(request):
     if request.user.is_authenticated:
         return redirect('/')
-    
-    form = UserCreationForm()
 
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -70,6 +68,8 @@ def signupPage(request):
             return redirect('/')
         else:
             print('form not valid awoo')
+    else:
+        form = UserCreationForm()
 
     context = {
         'form': form,
