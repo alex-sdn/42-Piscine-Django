@@ -39,16 +39,15 @@ def upvote_tip(request, id):
     try:
         tip = Tip.objects.get(id=id)
 
-        if tip:
-            if tip.upvotes.filter(id=user.id).exists():
-                tip.rm_upvote(request.user)
-            else:
-                if tip.downvotes.filter(id=user.id).exists():
-                    tip.rm_downvote(request.user)
+        if tip.upvotes.filter(id=user.id).exists():
+            tip.rm_upvote(request.user)
+        else:
+            if tip.downvotes.filter(id=user.id).exists():
+                tip.rm_downvote(request.user)
+            tip.upvote(request.user)
 
-                tip.upvote(request.user)
-            #Update reputation
-            tip.author.profile.update_permissions()
+        #Update permissions
+        tip.author.profile.update_permissions()
     except:
         print('no tip found')
 
@@ -60,20 +59,19 @@ def downvote_tip(request, id):
     
     try:
         tip = Tip.objects.get(id=id)
-        if tip:
-            if tip.downvotes.filter(id=user.id).exists():
-                tip.rm_downvote(request.user)
-            else:
-                if (tip.author == user) or user.profile.can_downvote:
-                    if tip.upvotes.filter(id=user.id).exists():  #remove upvote anyway?
-                        tip.rm_upvote(request.user)
 
-                    tip.downvote(request.user)
-                else:
-                    print('no downvote permission')
-                    messages.error(request, 'You do not have permissions for this')
-            #Update reputation
-            tip.author.profile.update_permissions()
+        if tip.downvotes.filter(id=user.id).exists():
+            tip.rm_downvote(request.user)
+        else:
+            if (tip.author == user) or user.profile.can_downvote:
+                if tip.upvotes.filter(id=user.id).exists():
+                    tip.rm_upvote(request.user)
+                tip.downvote(request.user)
+            else:
+                messages.error(request, 'You do not have permissions for this')
+            
+        #Update permissions
+        tip.author.profile.update_permissions()
     except:
         print('no tip found')
 
@@ -85,13 +83,12 @@ def delete_tip(request, id):
 
     try:
         tip = Tip.objects.get(id=id)
-        if tip:
-            if (tip.author == user) or user.has_perm('ex.delete_tip'):
-                tip.delete()
-            else:
-                print('no delete permission')
-                messages.error(request, 'You do not have permissions for this')
-    except Exception as e:
-        print(str(e))
+        
+        if (tip.author == user) or user.has_perm('ex.delete_tip'):
+            tip.delete()
+        else:
+            messages.error(request, 'You do not have permissions for this')
+    except:
+        print('no tip found')
 
     return redirect('/')

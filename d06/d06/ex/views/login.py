@@ -22,18 +22,13 @@ def loginPage(request):
             username = form.cleaned_data['username'].lower()
             password = form.cleaned_data['password']
 
-            try:
-                user = User.objects.get(username=username)
-            except:
-                messages.error(request, 'user does not exist')
-            
             user = authenticate(request, username=username, password=password)
 
             if user:
                 login(request, user)
                 return redirect('/')
             else:
-                messages.error(request, 'incorrect password')
+                messages.error(request, 'Incorrect username or password')
     else:
         form = LoginForm()
 
@@ -64,8 +59,6 @@ def signupPage(request):
             login(request, user)
 
             return redirect('/')
-        else:
-            print('form not valid awoo')
     else:
         form = UserCreationForm()
 
