@@ -34,7 +34,8 @@ def loginPage(request):
 
     context = {
         'form': form,
-        'page': 'login'
+        'page': 'login',
+        'username': request.session.get('username')
     }
     return render(request, 'ex/login_signup.html', context)
 
@@ -64,6 +65,7 @@ def signupPage(request):
 
     context = {
         'form': form,
-        'page': 'signup'
+        'page': 'signup',
+        'username': request.session.get('username')
     }
     return render(request, 'ex/login_signup.html', context)
