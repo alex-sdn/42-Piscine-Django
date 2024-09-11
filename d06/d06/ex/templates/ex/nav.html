@@ -2,7 +2,7 @@
     <a href="/">HOME</a>
 
     {% if request.user.is_authenticated %}
-        <p>Hello <strong>{{ request.user.username }}</strong>!</p>
+        <p>Hello <strong>{{ request.user.username }}</strong>! ({{ request.user.profile.reputation }}pts)</p>
         <a href="/logout">Logout</a>
     {% else %}
         <p>Hello {{ username }}!</p>

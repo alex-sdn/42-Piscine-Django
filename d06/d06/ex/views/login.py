@@ -4,15 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from ex.models import Profile
 
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-# class SignupForm(UserCreationForm):
-#     class Meta:
-#         model=User
-#         fields = ['username', 'password1', 'password2']
 
 
 def loginPage(request):
@@ -62,6 +58,8 @@ def signupPage(request):
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
+            #create Profile for permissions
+            Profile.objects.create(user=user)
 
             login(request, user)
 

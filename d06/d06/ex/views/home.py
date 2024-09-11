@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django import forms
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from ex.models import Tip
 
 class TipForm(forms.ModelForm):
@@ -39,19 +40,17 @@ def upvote_tip(request, id):
         tip = Tip.objects.get(id=id)
 
         if tip:
-            # test = Tip.objects.filter(author=request.user)
-            # if tip in test:
-            #     print('oui c dedans')
-
             if tip.upvotes.filter(id=user.id).exists():
-                tip.upvotes.remove(request.user)
+                tip.rm_upvote(request.user)
             else:
                 if tip.downvotes.filter(id=user.id).exists():
-                    tip.downvotes.remove(request.user)
+                    tip.rm_downvote(request.user)
 
-                tip.upvotes.add(request.user)
+                tip.upvote(request.user)
+            #Update reputation
+            tip.author.profile.update_permissions()
     except:
-        print('no tip')
+        print('no tip found')
 
     return redirect('/')
 
@@ -63,23 +62,36 @@ def downvote_tip(request, id):
         tip = Tip.objects.get(id=id)
         if tip:
             if tip.downvotes.filter(id=user.id).exists():
-                tip.downvotes.remove(request.user)
+                tip.rm_downvote(request.user)
             else:
-                if tip.upvotes.filter(id=user.id).exists():
-                    tip.upvotes.remove(request.user)
+                if (tip.author == user) or user.profile.can_downvote:
+                    if tip.upvotes.filter(id=user.id).exists():  #remove upvote anyway?
+                        tip.rm_upvote(request.user)
 
-                tip.downvotes.add(request.user)
+                    tip.downvote(request.user)
+                else:
+                    print('no downvote permission')
+                    messages.error(request, 'You do not have permissions for this')
+            #Update reputation
+            tip.author.profile.update_permissions()
     except:
-        print('no tip')
+        print('no tip found')
 
     return redirect('/')
 
 @login_required()
 def delete_tip(request, id):
     user = request.user
-    tip = Tip.objects.get(id=id)
 
-    if tip:
-        tip.delete()
+    try:
+        tip = Tip.objects.get(id=id)
+        if tip:
+            if (tip.author == user) or user.has_perm('ex.delete_tip'):
+                tip.delete()
+            else:
+                print('no delete permission')
+                messages.error(request, 'You do not have permissions for this')
+    except Exception as e:
+        print(str(e))
 
     return redirect('/')
