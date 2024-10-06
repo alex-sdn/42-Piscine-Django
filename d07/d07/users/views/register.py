@@ -1,11 +1,14 @@
-from django.views.generic import FormView
-from django.contrib.auth.mixins import UserPassesTestMixin
+# from django.views.generic import FormView
+from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.shortcuts import redirect
 
 
-class RegisterFormView(UserPassesTestMixin, FormView):
+class RegisterCreateView(UserPassesTestMixin, CreateView):
+    model = User
     form_class = UserCreationForm
     template_name = 'users/register.html'
     success_url = '/'

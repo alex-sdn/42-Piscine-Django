@@ -1,2 +1,2 @@
 from .login import CustomLoginView
-from .register import RegisterFormView
+from .register import RegisterCreateView

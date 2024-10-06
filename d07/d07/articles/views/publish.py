@@ -1,24 +1,21 @@
-from django.views.generic import FormView
+from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from articles.models import Article
-from articles.forms import PublishForm
 
 
-class PublishFormView(LoginRequiredMixin, FormView):
-    form_class = PublishForm
+class PublishCreateView(LoginRequiredMixin, CreateView):
+    model = Article
+    fields = ['title', 'synopsis', 'content']
     template_name = 'articles/publish.html'
 
     login_url = '/user/login'
 
     def form_valid(self, form):
-        self.article = Article.objects.create(
-            title = form.cleaned_data['title'],
-            synopsis = form.cleaned_data['synopsis'],
-            content = form.cleaned_data['content'],
-            author = self.request.user,
-        )
+        self.article = form.save(commit=False)
+        self.article.author = self.request.user
+        self.article.save()
 
         return super().form_valid(form)
     
