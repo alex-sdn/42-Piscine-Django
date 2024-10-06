@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications</title>
+</head>
+<body>
+    <h1>My Favourites</h1>
+    <ul>
+        {% for favourite in object_list %}
+        <li><a href="{% url 'details' favourite.article.pk %}">{{ favourite.article.title }}</a></li>
+        {% empty %}
+        <p>No favourites found.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>
