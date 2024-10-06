@@ -1,6 +1,5 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth import login
 from django.shortcuts import redirect
 
 
