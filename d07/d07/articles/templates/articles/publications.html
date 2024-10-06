@@ -18,7 +18,7 @@
         <tbody>
             {% for article in object_list %}
             <tr>
-                <td>{{ article.title }}</td>
+                <td><a href="{% url 'details' article.pk %}">{{ article.title }}</a></td>
                 <td>{{ article.synopsis }}</td>
                 <td>{{ article.created }}</td>
             </tr>

@@ -1,0 +1,35 @@
+[
+    {
+        "model": "articles.article",
+        "pk": 1,
+        "fields": {
+            "title": "The Dawn of Technology",
+            "author": 1,
+            "created": "2024-10-06T12:00:00Z",
+            "synopsis": "An overview of the advancements in modern technology.",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        }
+    },
+    {
+        "model": "articles.article",
+        "pk": 2,
+        "fields": {
+            "title": "Exploring the Universe",
+            "author": 1,
+            "created": "2024-10-06T12:30:00Z",
+            "synopsis": "A fascinating journey through space exploration and discoveries.",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes."
+        }
+    },
+    {
+        "model": "articles.article",
+        "pk": 3,
+        "fields": {
+            "title": "The Future of AI",
+            "author": 1,
+            "created": "2024-10-06T13:00:00Z",
+            "synopsis": "How artificial intelligence is reshaping industries across the globe.",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae."
+        }
+    }
+]
