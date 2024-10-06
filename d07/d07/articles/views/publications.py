@@ -10,6 +10,6 @@ class PublicationsListView(ListView):
         user = self.request.user
 
         if user.is_authenticated:
-            self.model = Article.objects.filter(author=user)
+            return Article.objects.filter(author=user)
         else:
-            self.model = Article.objects.none()
+            return Article.objects.none()
