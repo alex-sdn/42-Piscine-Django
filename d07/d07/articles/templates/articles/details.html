@@ -10,5 +10,7 @@
     <p>by <strong>{{ article.author.username }}</strong> on {{ article.created }}</p>
     <p><i>{{ article.synopsis }}</i></p>
     <p>{{ article.content }}</p>
+
+    {% include 'articles/addfavourite.html' %}
 </body>
 </html>

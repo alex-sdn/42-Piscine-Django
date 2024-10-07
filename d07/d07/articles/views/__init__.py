@@ -3,3 +3,4 @@ from .publications import PublicationsListView
 from .details import DetailsDetailView
 from .favourites import FavouritesListView
 from .publish import PublishCreateView
+from .addfavourite import AddFavouriteCreateView
