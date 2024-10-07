@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publications</title>
-</head>
-<body>
-    <h1>My Publications</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Synopsis</th>
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for article in object_list %}
-            <tr>
-                <td><a href="{% url 'details' article.pk %}">{{ article.title }}</a></td>
-                <td>{{ article.synopsis }}</td>
-                <td>{{ article.created }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="4">No articles.</td>
-            </tr>
-            {%  endfor %}
-        </tbody>
-    </table>
-    <p><a href="{% url 'publish' %}">Publish article</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Publications</title>
+{% endblock %}
+
+{% block content %}
+<h1>My Publications</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Synopsis</th>
+            <th>Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for article in object_list %}
+        <tr>
+            <td><a href="{% url 'details' article.pk %}">{{ article.title }}</a></td>
+            <td>{{ article.synopsis }}</td>
+            <td>{{ article.created }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No articles.</td>
+        </tr>
+        {%  endfor %}
+    </tbody>
+</table>
+<p><a href="{% url 'publish' %}">Publish article</a></p>
+{% endblock %}
