@@ -23,9 +23,9 @@
             <td>{{ article.author }}</td>
             <td>
                 {% if article.synopsis|length > 20 %}
-                {{ article.synopsis|slice:":20" }}...
+                    {{ article.synopsis|slice:":20" }}...
                 {% else %}
-                {{ article.synopsis }}
+                    {{ article.synopsis }}
                 {% endif %}
             </td>
             <td>{{ article.created }}</td>
