@@ -13,7 +13,8 @@
             <th>Author</th>
             <th>Synopsis</th>
             <th>Created</th>
-            <th>Since</th>
+            <th>When</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +31,7 @@
             </td>
             <td>{{ article.created }}</td>
             <td>{{ article.created|timesince }}</td>
+            <td><a href="{% url 'details' article.id %}">Read</a></td>
         </tr>
         {% empty %}
         <tr>
