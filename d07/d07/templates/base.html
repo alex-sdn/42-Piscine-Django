@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block title %}
     {% endblock %}
-    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %}
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %} {% load i18n %}
     <style>
         .navbar-nav .nav-link.active {
             background-color: #181a1c;
@@ -18,6 +18,7 @@
             padding-left: 20px;
             padding-right: 20px;
             font-family: Arial, sans-serif;
+            font-size: 15px;
         }
 
         th, td {
@@ -27,6 +28,20 @@
     </style>
 </head>
 <body>
+    <div class="language-switcher" style="text-align: right;">
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            {% get_current_language as LANGUAGE_CODE %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            {% if LANGUAGE_CODE == "en" %}
+                <input type="hidden" name="language" value="fr">
+                <button type="submit" class="btn btn-link">Passer en français</button>
+            {% else %}
+                <input type="hidden" name="language" value="en">
+                <button type="submit" class="btn btn-link">Switch to english</button>
+            {% endif %}
+        </form>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2d3033; border-radius: 6px; height: 60px">
         <div class="container">
             <ul class="navbar-nav mr-auto align-items-center">
@@ -37,21 +52,21 @@
                 </li>
                 <li>
                     {% url 'articles' as articles_url %}
-                    <a class="nav-link {% if request.path == articles_url %}active{% endif %}" href="{% url 'articles' %}">Articles</a>
+                    <a class="nav-link {% if request.path == articles_url %}active{% endif %}" href="{% url 'articles' %}">{% trans "Articles" %}</a>
                 </li>
                 {% if request.user.is_authenticated %}
                 <li>
                     {% url 'favourites' as fav_url %}
-                    <a class="nav-link {% if request.path == fav_url %}active{% endif %}" href="{% url 'favourites' %}">Favourites</a>
+                    <a class="nav-link {% if request.path == fav_url %}active{% endif %}" href="{% url 'favourites' %}">{% trans "Favourites" %}</a>
                 </li>
                 <li>
                     {% url 'publications' as pub_url %}
-                    <a class="nav-link {% if request.path == pub_url %}active{% endif %}" href="{% url 'publications' %}">Publications</a>
+                    <a class="nav-link {% if request.path == pub_url %}active{% endif %}" href="{% url 'publications' %}">{% trans "Publications" %}</a>
                 </li>
                 {% else %}
                 <li>
                     {% url 'register' as reg_url %}
-                    <a class="nav-link {% if request.path == reg_url %}active{% endif %}" href="{% url 'register' %}">Register</a>
+                    <a class="nav-link {% if request.path == reg_url %}active{% endif %}" href="{% url 'register' %}">{% trans "Register" %}</a>
                 </li>
                 {% endif %}
             </ul>
@@ -59,10 +74,10 @@
             <ul class="navbar-nav ml-auto">
                 {% if request.user.is_authenticated %}
                 <li>
-                    <span class="nav-link">Logged as {{ request.user.username }}</span>
+                    <span class="nav-link">{% trans "Logged as" %} {{ request.user.username }}</span>
                 </li>
                 <li>
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-link" href="{% url 'logout' %}">{% trans "Logout" %}</a>
                 </li>
                 {% else %}
                 {% url 'login' as login_url %}
@@ -74,7 +89,7 @@
                             <input type="text" id="username" name="username" placeholder="username" required style="border-radius: 5px">
                             <input type="password" id="password" name="password" placeholder="password" required style="border-radius: 5px">
                             <div>
-                                <button type="submit" style="border-radius: 5px" class="btn btn-light">Login</button>
+                                <button type="submit" style="border-radius: 5px" class="btn btn-light">{% trans "Login" %}</button>
                             </div>
                         </form>
                     </div>

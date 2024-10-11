@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}
 <title>Articles</title>
@@ -9,11 +10,11 @@
 <table>
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Synopsis</th>
-            <th>Created</th>
-            <th>When</th>
+            <th>{% trans "Title" %}</th>
+            <th>{% trans "Author" %}</th>
+            <th>{% trans "Synopsis" %}</th>
+            <th>{% trans "Created" %}</th>
+            <th>{% trans "When" %}</th>
             <th></th>
         </tr>
     </thead>
@@ -31,13 +32,13 @@
             </td>
             <td>{{ article.created }}</td>
             <td>{{ article.created|timesince }}</td>
-            <td><a href="{% url 'details' article.id %}" class="btn btn-primary">Read</a></td>
+            <td><a href="{% url 'details' article.id %}" class="btn btn-primary">{% trans "Read" %}</a></td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4">No articles.</td>
+            <td colspan="4">{% trans "No articles." %}</td>
         </tr>
-        {%  endfor %}
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}
