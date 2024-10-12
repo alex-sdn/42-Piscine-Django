@@ -6,6 +6,7 @@
 
 {% block content %}
 <h1>{{ article.title }}</h1>
+{% include 'nav.html' %}
 <p>by <strong>{{ article.author.username }}</strong> on {{ article.created }}</p>
 <p><i>{{ article.synopsis }}</i></p>
 <p>{{ article.content }}</p>

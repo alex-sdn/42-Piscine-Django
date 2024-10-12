@@ -1,0 +1,60 @@
+{% load static %} {% load i18n %}
+<hr>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2d3033; border-radius: 6px; height: 60px">
+    <div class="container">
+        <ul class="navbar-nav mr-auto align-items-center">
+            <li>
+                <a class="nav-link" href="{% url 'home' %}">
+                    <img src="{% static 'houses-fill.svg' %}" alt="Home" style="height: 30px;">
+                </a>
+            </li>
+            <li>
+                {% url 'articles' as articles_url %}
+                <a class="nav-link {% if request.path == articles_url %}active{% endif %}" href="{% url 'articles' %}">{% trans "Articles" %}</a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li>
+                {% url 'favourites' as fav_url %}
+                <a class="nav-link {% if request.path == fav_url %}active{% endif %}" href="{% url 'favourites' %}">{% trans "Favourites" %}</a>
+            </li>
+            <li>
+                {% url 'publications' as pub_url %}
+                <a class="nav-link {% if request.path == pub_url %}active{% endif %}" href="{% url 'publications' %}">{% trans "Publications" %}</a>
+            </li>
+            {% else %}
+            <li>
+                {% url 'register' as reg_url %}
+                <a class="nav-link {% if request.path == reg_url %}active{% endif %}" href="{% url 'register' %}">{% trans "Register" %}</a>
+            </li>
+            {% endif %}
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+            <li>
+                <span class="nav-link">{% trans "Logged as" %} {{ request.user.username }}</span>
+            </li>
+            <li>
+                <a class="nav-link" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            </li>
+            {% else %}
+            {% url 'login' as login_url %}
+            {% if request.path != login_url %}
+            <li class="nav-item">
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" id="username" name="username" placeholder="username" required style="border-radius: 5px">
+                        <input type="password" id="password" name="password" placeholder="password" required style="border-radius: 5px">
+                        <div>
+                            <button type="submit" style="border-radius: 5px" class="btn btn-light">{% trans "Login" %}</button>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<br>
