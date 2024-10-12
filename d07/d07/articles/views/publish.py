@@ -1,9 +1,8 @@
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from articles.models import Article
-from django.urls import reverse_lazy
 
 
 class PublishCreateView(LoginRequiredMixin, CreateView):

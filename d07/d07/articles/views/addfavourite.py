@@ -1,6 +1,6 @@
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
 from articles.models import UserFavouriteArticle, Article
@@ -11,7 +11,7 @@ class AddFavouriteCreateView(LoginRequiredMixin, CreateView):
     fields = []
     template_name = 'articles/details.html'
 
-    login_url = '/user/login'
+    login_url = reverse_lazy('login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
