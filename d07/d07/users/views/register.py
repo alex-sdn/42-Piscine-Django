@@ -5,13 +5,14 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 
 class RegisterCreateView(UserPassesTestMixin, CreateView):
     model = User
     form_class = UserCreationForm
     template_name = 'users/register.html'
-    success_url = '/'
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -25,4 +26,4 @@ class RegisterCreateView(UserPassesTestMixin, CreateView):
         return not self.request.user.is_authenticated
     
     def handle_no_permission(self):
-        return redirect('/')
+        return redirect(reverse_lazy('home'))
