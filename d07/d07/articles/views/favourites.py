@@ -1,15 +1,16 @@
 from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from articles.models import UserFavouriteArticle
+from django.urls import reverse_lazy
 
 
-class FavouritesListView(ListView):
+class FavouritesListView(LoginRequiredMixin, ListView):
     model = UserFavouriteArticle
     template_name = 'articles/favourites.html'
 
+    login_url = reverse_lazy('login')
+
     def get_queryset(self):
         user = self.request.user
-
-        if user.is_authenticated:
-            return UserFavouriteArticle.objects.filter(user=user)
-        else:
-            return UserFavouriteArticle.objects.none()
+        
+        return UserFavouriteArticle.objects.filter(user=user)

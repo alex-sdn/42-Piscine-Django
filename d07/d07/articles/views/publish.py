@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from articles.models import Article
+from django.urls import reverse_lazy
 
 
 class PublishCreateView(LoginRequiredMixin, CreateView):
@@ -10,7 +11,7 @@ class PublishCreateView(LoginRequiredMixin, CreateView):
     fields = ['title', 'synopsis', 'content']
     template_name = 'articles/publish.html'
 
-    login_url = '/user/login'
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         self.article = form.save(commit=False)

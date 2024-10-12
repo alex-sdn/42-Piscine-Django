@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <div class="language-switcher" style="text-align: right;">
+    <div style="text-align: right;">
         <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             {% get_current_language as LANGUAGE_CODE %}
