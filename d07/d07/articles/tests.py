@@ -18,11 +18,9 @@ class LoginRequiredTest(TestCase):
         response = self.client.get(self.favourites_url)
         self.assertRedirects(response, f'{self.login_url}?next={self.favourites_url}', fetch_redirect_response=False)
 
-
     def test_redirect_publications(self):
         response = self.client.get(self.publications_url)
         self.assertRedirects(response, f'{self.login_url}?next={self.publications_url}', fetch_redirect_response=False)
-
 
     def test_redirect_publish(self):
         response = self.client.get(self.publish_url)
@@ -34,12 +32,10 @@ class LoginRequiredTest(TestCase):
         response = self.client.get(self.favourites_url)
         self.assertEqual(response.status_code, 200)
 
-
     def test_success_publications(self):
         self.client.login(username='test', password='test')
         response = self.client.get(self.publications_url)
         self.assertEqual(response.status_code, 200)
-
 
     def test_success_publish(self):
         self.client.login(username='test', password='test')
@@ -48,6 +44,7 @@ class LoginRequiredTest(TestCase):
 
 
 class DoubleFavouriteTest(TestCase):
+
     def setUp(self):
         self.user = User.objects.create_user(username='test', password='test')
         self.article = Article.objects.create(
@@ -57,7 +54,7 @@ class DoubleFavouriteTest(TestCase):
             content='content',
         )
 
-    
+
     def test_double_fav(self):
         self.client.login(username='test', password='test')
         

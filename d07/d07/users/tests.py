@@ -10,7 +10,8 @@ class RegisterRestrictTest(TestCase):
 
         self.register_url = reverse('register')
         self.home_url = reverse_lazy('home')
-    
+
+
     def test_redirect_register(self):
         self.client.login(username='test', password='test')
         response = self.client.get(self.register_url)
