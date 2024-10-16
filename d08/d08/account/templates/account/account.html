@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %} {% load static %}
+    <title>Account</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Login test</h1>
+    
+    <div id="login-div">
+        <form method="post" id="login-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <div id="error-message" style="color: red;"></div>
+    </div>
+
+    <div id="profile-div" style="display: none;">
+        <p>Logged as <span id="username"></span></p>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#login-form').on('submit', function(event) {
+                event.preventDefault();  // Prevent form from submitting normally
+
+                $.ajax({
+                    url: "{% url 'account' %}",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.success) {
+                            $('#login-div').hide();
+                            $('#profile-div').show();
+                            $('#username').text(response.username);
+                            // Update csrf token
+                            $.get("{% url 'get_csrf' %}", function(data) {
+                                $('input[name="csrfmiddlewaretoken"]').val(data.csrfToken);
+                            });
+                        }
+                        else {
+                            $('#error-message').text(response.error);
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#error-message').text(xhr.responseJSON.error);
+                    }
+                });
+            });
+
+            $('#logout-button').on('click', function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "{% url 'logout' %}",
+                    type: "POST",
+                    // data: {
+                    //     'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    // },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#profile-div').hide();
+                            $('#login-div').show();
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log('Error logging out');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
