@@ -1,73 +1,113 @@
 import sys
 
-# Returns dict with key=element and value=(position, number, small, molar, electron)
-# Sorted by number
-def get_elements():
+
+class Element():
+    def __init__(self, name, position, number, small, molar, electron):
+        self.name = name
+        self.position = position
+        self.number = number
+        self.small = small
+        self.molar = molar
+        self.electron = electron
+
+    def table_print(self):
+        """Returns elem data for table data cell"""
+        return ('    ' * 5 + f'<h4>{self.name}</h4>\n'
+                + '    ' * 5 + '<ul>\n'
+                + '    ' * 6 + f'<li>No {self.number}</li>\n'
+                + '    ' * 6 + f'<li>{self.small}</li>\n'
+                + '    ' * 6 + f'<li>{self.molar}</li>\n'
+                + '    ' * 6 + f'<li>{self.electron}</li>\n'
+                + '    ' * 5 + '</ul>\n')
+
+
+def get_elements() -> list[Element]:
+    """
+    Returns a list of Element from periodic_table.txt
+    Note: assumes numbers are in order (add sort?)
+    """
     try:
         with open('periodic_table.txt', 'r') as file:
-            lines = file.readlines()
-            elements = {}
-
-            for line in lines:
-                elem       = line.split('=')[0].strip()
+            elements = []
+            
+            for line in file:
+                name = line.split('=')[0].strip()
                 attributes = line.split('=')[1].strip().split(',')
-                attributes_clean = []
-                
-                # Keep values only
+
                 for attribute in attributes:
-                    attributes_clean.append(attribute.split(':')[1].strip())
-                # Cast position and number as int
-                attributes_clean[0] = int(attributes_clean[0])
-                attributes_clean[1] = int(attributes_clean[1])
-                attributes_clean.append(elem)
-                
-                elements[attributes_clean[1]] = tuple(attributes_clean)
-            
-            # Sort dict by number
-            sorted_elements = dict(sorted(elements.items(), key=lambda x: x[1][1]))
-            
-            return sorted_elements
-    except:
-        print('failed to open .txt')
+                    key = attribute.split(':')[0].strip()
+                    value = attribute.split(':')[1].strip()
+
+                    if key == 'position':
+                        position = int(value)
+                    elif key == 'number':
+                        number = value
+                    elif key == 'small':
+                        small = value
+                    elif key == 'molar':
+                        molar = value
+                    elif key == 'electron':
+                        electron = value
+
+                elem = Element(name, position, number, small, molar, electron)
+                elements.append(elem)
+
+            return elements
+    except Exception as e:
+        print(str(e))
         exit()
 
-# Returns row of element (0 - 8)
-def get_row(elements, num):
-    pos = elements[num][0]
 
-    pos_count = 0
-    num_pos = 0
+def get_elem_rows(elements) -> list[list[Element]]:
+    """
+    Returns a list of lists of Element sorted by rows
+    """
+    elem_rows = []
+    row = []
+    row.append(elements[0])
 
-    for key,value in elements.items():
-        if value[0] == pos:
-            pos_count += 1
-            if key == num:
-                num_pos = pos_count
+    for i in range(1, len(elements)):
+        if elements[i].position > elements[i - 1].position:
+            row.append(elements[i])
+        else:
+            elem_rows.append(row.copy())
+            row.clear()
+            row.append(elements[i])
 
-    # col 3 - 16 have 2 extra rows
-    # if pos > 2 and pos < 17:
-    #     return 9 - pos_count + num_pos - 1
-    # else:
-        return 7 - pos_count + num_pos - 1
+    elem_rows.append(row)
+    return elem_rows
+
+
+def html_table(elem_rows):
+    """
+    Creates .html file and writes in periodic table from elem_rows
+    """
+    try:
+        with open('periodic_table.html', 'w') as file:
+            file.write('<!DOCTYPE html>\n<html>\n    <body>\n        <table>\n')
+
+            for row in elem_rows:
+                file.write('            <tr>\n')
+                pos = 0
+                for elem in row:
+                    while elem.position > pos:
+                        file.write('    ' * 4 + '<td></td>\n')
+                        pos += 1
+                    if elem.position == pos:
+                        file.write('    ' * 4 + '<td style="border: 1px solid black; padding:10px">\n')
+                        file.write(elem.table_print())
+                        file.write('    ' * 4 + '</td>\n')
+                    pos += 1
+                file.write('            </tr>\n')
+
+            file.write('        </table>\n    </body>\n</html>')
+    except Exception as e:
+        print(e)
 
 def periodic_table():
     elements = get_elements()
-
-    # for key,value in elements.items():
-    #     print(key, ':', value)
-
-    # Print out symbols (temp test)
-    num = 1
-
-    for row in range(9):
-        for col in range(18):
-            if elements[num][0] == col and get_row(elements, num) == row:
-                print(elements[num][2].ljust(4), end='')
-                num += 1
-            else:
-                print('    ', end='')
-        print()
-
+    elem_rows = get_elem_rows(elements)
+    html_table(elem_rows)
 
 
 if __name__ == '__main__':
