@@ -84,7 +84,9 @@ def html_table(elem_rows):
     """
     try:
         with open('periodic_table.html', 'w') as file:
-            file.write('<!DOCTYPE html>\n<html>\n    <body>\n        <table>\n')
+            file.write('<!DOCTYPE html>\n<html lang="en">\n')
+            file.write('    <head>\n        <title>Periodic table</title>\n    </head>\n')
+            file.write('    <body>\n        <table>\n')
 
             for row in elem_rows:
                 file.write('            <tr>\n')
