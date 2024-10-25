@@ -95,10 +95,10 @@ def html_table(elem_rows):
                     while elem.position > pos:
                         file.write('    ' * 4 + '<td></td>\n')
                         pos += 1
-                    if elem.position == pos:
-                        file.write('    ' * 4 + '<td style="border: 1px solid black; padding:10px">\n')
-                        file.write(elem.table_print())
-                        file.write('    ' * 4 + '</td>\n')
+
+                    file.write('    ' * 4 + '<td style="border: 1px solid black; padding:10px">\n')
+                    file.write(elem.table_print())
+                    file.write('    ' * 4 + '</td>\n')
                     pos += 1
                 file.write('            </tr>\n')
 
